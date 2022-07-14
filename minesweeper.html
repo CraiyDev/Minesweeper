@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link href="minesweeper.css" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="minesweeper.js"></script>
+        <script>
+            $(function () { 
+                var view = $('#game-view');
+                view.attr("width", view.innerWidth());
+                view.attr("height", view.innerHeight());
+
+                var minesweeper = new Minesweeper(view[0].getContext('2d'), 20, 60);
+                minesweeper.startHandler = () => {
+                    $(".game-ui").css("visibility", "hidden");
+                }
+                minesweeper.stopHandler = (text) => {
+                    $(".game-menu > h1").text(text);
+                    $(".game-menu > span").text("Score: " + minesweeper.score);
+                    $(".game-menu > button").text("Retry");
+                    $(".game-ui").css("background-color", "#050a12A0")
+                    $(".game-ui").css("visibility", "visible");
+                }
+                view.on("click", (e) => minesweeper.click(e));
+                $(".game-menu > button").on("click", minesweeper.start);
+            });
+        </script>
+    </head>
+    <body>
+        <div class="game-container">
+            <div>
+                <canvas id="game-view"></canvas>
+                <div class="game-ui">
+                    <div class="game-menu">
+                        <h1>Minesweeper</h1>
+                        <span></span>
+                        <button>Start</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
